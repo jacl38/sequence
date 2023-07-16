@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
+import Header from "./Components/Header";
 
 type Room = {
   id: string;
@@ -33,45 +34,15 @@ export default function App() {
     // socket?.on("room-ids", setFoundRoomIDs);
   }, [socket]);
 
-  return (
-    <div>
-
-
-      {/* <p>client id: {socket?.id}</p>
-
-      <button onClick={() => socket?.emit("get-room-ids")}>
-        test get rooms
-      </button>
-
-      <input
-        className="border-gray-300 py-1 px-1.5 border-2 rounded-lg"
-        type="text"
-        placeholder="Enter a room ID"
-        onKeyDown={e => {
-          if(e.key === "Enter") {
-            socket?.emit("message", e.currentTarget.value);
-            e.currentTarget.value = "";
-          }
-        }}
-      />
-
-      <button
-        className="border-gray-300 py-1 px-1.5 border-2 rounded-lg"
-        onClick={() => {
-          socket?.emit("create-room");
-        }}>
-        Create a room
-      </button>
-      <div>
-        Rooms list:
-        <ul>
-          {foundRoomIDs.map((roomID, i) => (
-            <div key={`room-${i}`}>
-              <button>Room {roomID}</button>
-            </div>
-          ))}
-        </ul>
-      </div> */}
-    </div>
-  );
+  return ( <>
+    <Header
+      onJoinRoom={roomID => {
+        console.log(roomID);
+        socket?.emit("join-room", roomID);
+      }}
+      setPublic={(isPublic, roomID) => {
+        console.log(isPublic, roomID);
+      }}
+    />
+  </> );
 }
