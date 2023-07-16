@@ -28,6 +28,7 @@ io.on("connection", socket => {
   console.log("User connected:", socket.id);
 
   socket.on("test-message", data => {
+    console.log("got pinged by", socket.id);
     data({ test: "asdf" });
   });
 
@@ -46,6 +47,7 @@ io.on("connection", socket => {
 //   Adds the user to the room
 // "leave-room" () => void
 //   Removes the user from the room
+// "set-public" (isPublic: boolean) => void
 
 // ==Client==
 // "room-ids" () => roomIds: string[]
