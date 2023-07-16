@@ -5,7 +5,9 @@ export function filterRoomIDInput(value: string) {
   if(filteredValue.length > 12) filteredValue.slice(0, 12);
   const parts = [filteredValue.slice(0, 4), filteredValue.slice(4, 8), filteredValue.slice(8, 12)]
 
-  return parts.filter(part => part.length > 0).join("-");
+  let result = parts.filter(part => part.length > 0).join("-");
+  if(result.length === 4 || result.length === 9) result += "-";
+  return result;
 }
 
 export function isValidRoomID(value: string) {
