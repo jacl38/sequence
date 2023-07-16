@@ -38,11 +38,17 @@ io.on("connection", socket => {
 });
 
 // Socket events:
+
 // ==Server==
-// "create-room" ()
+// "create-room" () => void
 //   Generates a new room ID
-// "join-room" (roomId: string)
-// "leave-room" ()
+// "join-room" (roomId: string) => void
+//   Adds the user to the room
+// "leave-room" () => void
+//   Removes the user from the room
+
 // ==Client==
-// "room-ids" => roomIds: string[]
-// "room-joined" => void
+// "room-ids" () => roomIds: string[]
+//   Returns a list of room IDs
+// "room-users" (roomId: string) => users: string[]
+//   Returns a list of users in the room
