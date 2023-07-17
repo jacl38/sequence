@@ -1,7 +1,7 @@
 import express from "express";
 import { Server, Socket } from "socket.io"
 import { UUID } from "./util";
-import { Room } from "./types";
+import { Hand, Room } from "./types";
 import { makeBoard } from "./boardUtil";
 
 const app = express();
@@ -9,7 +9,7 @@ const server = app.listen(3000);
 
 const io = new Server(server, { cors: { origin: "*" } });
 
-const rooms: Room[] = [];
+const rooms: ({ hands?: { [key: string]: Hand } } & Omit<Room, "myHand">)[] = [];
 const clients: Socket[] = [];
 
 function getClientByID(id: string) {
@@ -38,14 +38,18 @@ io.on("connection", socket => {
   console.log("User connected:", socket.id);
 
   function getRoom() {
-    return rooms.find(room => room.users.includes(socket.id));
+    const foundRoom = rooms.find(room => room.users.includes(socket.id));
+    return foundRoom;
   }
 
   function signalChange() {
     const room = getRoom();
     if(!room) return;
     room.users.forEach(user => {
-      getClientByID(user)?.emit("room-updated", room);
+      const filteredRoom = {...room};
+      delete filteredRoom.hands;
+      const usersHand = room.hands?.[user];
+      getClientByID(user)?.emit("room-updated", { ...filteredRoom, myHand: usersHand });
     });
   }
 
@@ -55,17 +59,26 @@ io.on("connection", socket => {
   });
 
   socket.on("create-room", (callback: (id?: string) => void) => {
-
     // check if user is already in a room
-    // if so, delete that room
-    if(rooms.some(room => room.users.includes(socket.id))) {
-      rooms.splice(rooms.findIndex(room => room.users.includes(socket.id)), 1);
-    }
+    // if so, remove them from that room
+    const room = getRoom();
+    if(room) room.users.splice(room.users.indexOf(socket.id), 1);
 
-    const newRoom: Room = {
+    const newRoom: typeof rooms[number] = {
       id: UUID(),
       public: false,
       users: [socket.id],
+      hands: {
+        [socket.id]: [
+          { suit: "clubs", value: "ace" },
+          { suit: "clubs", value: "two" },
+          { suit: "clubs", value: "three" },
+          { suit: "clubs", value: "four" },
+          { suit: "clubs", value: "five" },
+          { suit: "clubs", value: "six" },
+          { suit: "clubs", value: "seven" }
+        ]
+      },
       gameState: "lobby",
       board: makeBoard()
     };
@@ -102,7 +115,7 @@ io.on("connection", socket => {
   socket.on("join-room", (roomId: string, callback: (status: "success" | "full" | "not-found") => void) => {
     console.log(`${socket.id} is trying to join room ${roomId}.`);
     const room = rooms.find(room => room.id === roomId);
-    if(room && !room.users.includes(socket.id) && room.users.length < 2) {
+    if(room && !room.users.some(user => user === socket.id) && room.users.length < 2) {
       room.users.push(socket.id);
       console.log(`Added ${socket.id} to room ${roomId}.`);
       socket.emit("entered-room", room);
@@ -120,7 +133,8 @@ io.on("connection", socket => {
     const room = getRoom();
     if(room) {
       // remove disconnecting user from room
-      room.users.splice(room.users.indexOf(socket.id), 1);
+      const index = room.users.findIndex(user => user === socket.id);
+      room.users.splice(index, 1);
       if(room.users.length === 0) {
         // remove room entirely if no users are left
         rooms.splice(rooms.indexOf(room), 1);

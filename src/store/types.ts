@@ -1,12 +1,17 @@
+const suit = ["clubs", "diamonds", "hearts", "spades", "wild"] as const;
+const value = ["wild", "ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king"] as const;
+
 export type BoardSpace = {
-  suit: "clubs" | "diamonds" | "hearts" | "spades" | "wild",
-  value: "wild" | "ace" | "two" | "three" | "four" | "five" | "six" | "seven" | "eight" | "nine" | "ten" | "jack" | "queen" | "king";
+  suit: typeof suit[number],
+  value: typeof value[number];
 }
 
 export type Chip = {
   color: "purple" | "green" | "empty",
   permanent?: boolean
 }
+
+export type Hand = BoardSpace[];
 
 export type Board = {
   space: BoardSpace,
@@ -24,6 +29,7 @@ export type GameState =
 export type Room = {
   id: string,
   users: string[],
+  myHand: Hand,
   public: boolean,
   gameState: GameState,
   board: Board

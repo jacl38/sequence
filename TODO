@@ -23,10 +23,11 @@
     [ ] Handle clicks from child card components
       [ ] Send intents to server, server sends back new board (if valid intent)
 
-[ ] UI
-  [ ] Hand
-  [ ] Deck
-  [ ] Chips
+[ ] Hand
+  [x] Display player's current hand
+  [ ] Keep track of remaining cards in the deck
+  [ ] On the start of a game, add 7 cards to each hand
+  [ ] On the start of a turn, draw cards until hand is full (7)
 
 [ ] Help menu
 [ ] Fix room ID keyboard entry on mobile (?)
