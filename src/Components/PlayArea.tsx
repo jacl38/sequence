@@ -5,6 +5,7 @@ import { GameState } from "../store/types"
 import { tw } from "../util/styled"
 import Board from "./Board/Board"
 import Hand from "./Board/Hand"
+import Helper from "./Board/Helper"
 
 const styles = {
   gameContainer: tw(
@@ -43,7 +44,9 @@ export default function PlayArea() {
   const [hoveredHandCard, setHoveredHandCard] = useState<number | undefined>(undefined);
 
   return <div className={styles.gameContainer}>
-    <div className={styles.leftDiv}>help</div>
+    <div className={styles.leftDiv}>
+      <Helper />
+    </div>
 
     <div className="flex flex-col items-center pt-3 space-y-2 shrink-0">
       <p className={styles.turnIndicator}>
