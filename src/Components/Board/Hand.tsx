@@ -10,8 +10,9 @@ const styles = {
     "flex flex-col",
     "items-center justify-center",
     "space-y-1.5 px-2 mx-2 pb-4 pt-2",
-    color === "green" ? "bg-green-400 border-green-500" : "",
-    color === "purple" ? "bg-purple-400 border-purple-500" : "",
+    color === "green" ? "bg-green-400 border-green-500 dark:bg-green-600 dark:border-green-700" : "",
+    color === "purple" ? "bg-purple-400 border-purple-500 dark:bg-purple-600 dark:border-purple-700" : "",
+    "transition-colors",
     "border-4 rounded-2xl"
   ),
   label: tw(
@@ -20,7 +21,12 @@ const styles = {
   )
 }
 
-export default function Hand() {
+type HandProps = {
+  onHover?: (card?: number) => void,
+  onExit?: () => void
+}
+
+export default function Hand({ onHover, onExit }: HandProps) {
   const [room,] = useRoom();
   const [hand, setHand] = useState<Hand>([]);
 
@@ -33,7 +39,14 @@ export default function Hand() {
   return (<>
     <div className={styles.container(color)}>
       <p className={styles.label}>Hand</p>
-      {hand?.map((card, i) => <Card key={`hand-${i}`} cardType={card} chip={{ color: "empty" }} />)}
+      {hand?.map((card, i) => (
+        <Card
+          onHover={() => onHover?.(i)}
+          onExit={onExit}
+          key={`hand-${i}`}
+          cardType={card}
+          chip={{ color: "empty" }} />
+      ))}
     </div>
   </>);
 }

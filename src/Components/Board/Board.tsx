@@ -12,15 +12,21 @@ const styles = {
   )
 }
 
-export default function Board() {
+export default function Board({ hoveredHandCard }: { hoveredHandCard?: number }) {
   const [room,] = useRoom();
+
+  const hoveredCard = hoveredHandCard !== undefined ? room.myHand[hoveredHandCard] : undefined;
 
   return (
     <div className={styles.container}>
       {room.board.map((row, i) => {
         return <div key={`row-${i}`} className={styles.row}>
           {row.map((card, j) => {
-            return <Card key={`card-${i}-${j}`} cardType={card.space} chip={card.chip} />
+            return <Card
+              hoveredFromHand={hoveredCard?.suit === card.space.suit && hoveredCard?.value === card.space.value}
+              key={`card-${i}-${j}`}
+              cardType={card.space}
+              chip={card.chip} />
           })}
         </div>
       })}

@@ -1,14 +1,17 @@
-import { BoardSpace, Chip } from "../../store/types"
+import { BoardSpace, CardSuits, Chip } from "../../store/types"
 import { tw } from "../../util/styled"
 
 type CardProps = {
   cardType: BoardSpace,
   chip: Chip,
-  onClick?: () => void
+  hoveredFromHand?: boolean,
+  onClick?: () => void,
+  onHover?: () => void,
+  onExit?: () => void
 }
 
 const styles = {
-  container: tw(
+  container: (hoveredFromHand: boolean) => tw(
     "max-xxs:w-8 max-xxs:h-8",
     "w-[9vw] h-[9vw]",
     "sm:w-12 sm:h-12",
@@ -20,6 +23,12 @@ const styles = {
     "shadow-inner shadow-stone-500/25 dark:shadow-stone-950/25",
     "hover:shadow-lg hover:scale-125",
     "hover:z-10",
+    hoveredFromHand ? tw(
+      "z-10",
+      "scale-110 rotate-6",
+      "from-stone-200 to-stone-300",
+      "dark:from-stone-600 dark:to-stone-800"
+    ) : "",
     "rounded-[35%] hover:rounded-[20%]",
     "select-none",
     "max-xxs:text-sm text-xl md:text-2xl",
@@ -75,7 +84,7 @@ const styles = {
   }
 }
 
-function suitToUnicode(suit: BoardSpace["suit"]) {
+function suitToUnicode(suit: typeof CardSuits[number]) {
   switch(suit) {
     case "clubs": return "\u2663\uFE0E";
     case "diamonds": return "\u2666\uFE0E";
@@ -85,7 +94,7 @@ function suitToUnicode(suit: BoardSpace["suit"]) {
   }
 }
 
-function suitToColor(suit: BoardSpace["suit"]) {
+function suitToColor(suit: typeof CardSuits[number]) {
   switch(suit) {
     case "clubs": return "black";
     case "diamonds": return "red";
@@ -114,14 +123,13 @@ function valueToChar(value: BoardSpace["value"]) {
   }
 }
 
-export default function Card({ cardType, chip, onClick }: CardProps) {
-
+export default function Card({ cardType, chip, hoveredFromHand, ...actions }: CardProps) {
   const colorName = suitToColor(cardType.suit);
   const suitStyle = tw(
     styles.suitIndicator.base,
     styles.suitIndicator[colorName]
   );
-  const symbol = suitToUnicode(cardType.suit);
+  const suitSymbol = suitToUnicode(cardType.suit);
 
   const valueStyle = tw(
     styles.valueIndicatorBase,
@@ -135,13 +143,13 @@ export default function Card({ cardType, chip, onClick }: CardProps) {
   );
 
   return (
-    <button onClick={onClick} className={styles.container}>
-      <span className={suitStyle}>
-        {symbol}
-      </span>
-      <span className={valueStyle}>
-        {value}
-      </span>
+    <button
+      onMouseEnter={actions.onHover}
+      onMouseLeave={actions.onExit}
+      onClick={actions.onClick}
+      className={styles.container(hoveredFromHand ?? false)}>
+      <span className={suitStyle}>{suitSymbol}</span>
+      <span className={valueStyle}>{value}</span>
       <div className={chipStyle}></div>
     </button>
   );
