@@ -3,7 +3,7 @@ export type BoardSpace = {
   value: "wild" | "ace" | "two" | "three" | "four" | "five" | "six" | "seven" | "eight" | "nine" | "ten" | "jack" | "queen" | "king";
 }
 
-type Chip = {
+export type Chip = {
   color: "blue" | "green" | "empty",
   permanent?: boolean
 }
