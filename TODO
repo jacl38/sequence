@@ -28,6 +28,10 @@
   [x] On the start of a game, add 7 cards to each hand
   [ ] On the start of a turn, draw cards until hand is full (7)
 
+[ ] Bugs
+  [ ] One-eyed jack removal
+  [ ] Card hover highlight on invalid spaces (with tokens)
+
 [ ] Help menu
 [ ] Fix room ID keyboard entry on mobile (?)
 

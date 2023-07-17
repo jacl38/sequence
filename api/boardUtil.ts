@@ -19,6 +19,20 @@ export function makeBoard(): Board {
   return board;
 }
 
+export function cardCanBePlayed({ card, board, myColor }: { card: BoardSpace, board: Board, myColor: "green" | "purple" }) {
+  for(let row = 0; row < board.length; row++) {
+    for(let col = 0; col < board[row].length; col++) {
+      if(validateAction({
+        position: { row, col },
+        board,
+        myColor,
+        hand: [card]
+      }) !== undefined) return true;
+    }
+  }
+  return false;
+}
+
 // returns the index in the hand of the card that is being played, or undefined if the action is invalid
 export function validateAction({ position, hand, board, myColor }: { position: { row: number, col: number }, hand: Hand, board: Board, myColor: "green" | "purple" }): undefined | number {
   const space = board[position.row][position.col];
@@ -57,7 +71,7 @@ function isCorner(row: number, col: number): boolean {
   return (row === 0 && col === 0) || (row === 0 && col === 9) || (row === 9 && col === 0) || (row === 9 && col === 9);
 }
 
-function hasWinCondition(board: Board): "green" | "purple" | "empty" {
+export function hasWinCondition(board: Board): "green" | "purple" | "empty" {
   for(let row = 0; row <= board.length - 4; row++) {
     for(let col = 0; col <= board[row].length - 4; col++) {
       const color = board[row][col].chip.color;

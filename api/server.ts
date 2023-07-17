@@ -2,7 +2,7 @@ import express from "express";
 import { Server, Socket } from "socket.io"
 import { UUID } from "./util";
 import { BoardSpace, CardSuits, CardValues, Hand, Room } from "./types";
-import { makeBoard, validateAction } from "./boardUtil";
+import { cardCanBePlayed, hasWinCondition, makeBoard, validateAction } from "./boardUtil";
 import { shuffle } from "./mathUtil";
 
 const app = express();
@@ -169,7 +169,51 @@ io.on("connection", socket => {
         room.board[position.row][position.col].chip.color = myColor;
       }
 
-      // pass the turn
+      // check win condition
+      const win = hasWinCondition(room.board);
+
+      if(win !== "empty") {
+        room.gameState = `end-${win}`;
+        signalChange();
+        return;
+      }
+
+      // give user more cards
+      const deck = room.remainingCards!;
+      for(let i = 0; i < 7 - room.hands![socket.id].length; i++) {
+        let card = deck.pop();
+        // check if the card has any valid placements
+        room.hands![socket.id].push(deck.pop()!);
+      }
+
+      // check tie/forfeit condition
+      const hasValidMoves = room.users.map((user, c) => {
+        const myColor = c === 0 ? "green" : "purple";
+        return room.hands![user].some(card => cardCanBePlayed({ card, board: room.board, myColor }));
+      });
+
+      // neither player has valid moves -> tie
+      if(!hasValidMoves[0] && !hasValidMoves[1]) {
+        room.gameState = "end-tie";
+        signalChange();
+        return;
+      }
+
+      // green player has no valid moves when about to switch to their turn -> purple wins
+      if(!hasValidMoves[0] && socket.id !== room.users[0]) {
+        room.gameState = "end-purple";
+        signalChange();
+        return;
+      }
+
+      // purple player has no valid moves when about to switch to their turn -> green wins
+      if(!hasValidMoves[1] && socket.id !== room.users[1]) {
+        room.gameState = "end-green";
+        signalChange();
+        return;
+      }
+
+      // otherwise, pass the turn
       room.gameState = `turn-${myColor === "green" ? "purple" : "green"}`;
       signalChange();
     }
