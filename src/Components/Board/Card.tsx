@@ -9,15 +9,18 @@ type CardProps = {
 
 const styles = {
   container: tw(
-    "w-14 h-14",
+    "max-sm:w-[9vw] max-sm:h-[9vw]",
+    "md:w-14 md:h-14",
+    "w-12 h-12",
+    "aspect-square",
     "relative",
     "bg-gradient-to-bl from-white to-stone-200 dark:from-stone-800 dark:to-stone-900",
-    "hover:from-stone-200 hover:to-stone-300",
+    "hover:from-stone-300 hover:to-stone-400",
     "dark:hover:from-stone-700 dark:hover:to-stone-800",
     "shadow-inner shadow-stone-500/25 dark:shadow-stone-950/25",
     "hover:shadow-lg hover:scale-125",
     "hover:z-10",
-    "rounded-2xl",
+    "rounded-[35%] hover:rounded-[20%]",
     "select-none",
     "text-xl md:text-2xl",
     "transition-all duration-300 ease-out-back"
@@ -26,20 +29,21 @@ const styles = {
     base: tw(
       "absolute",
       "-translate-y-1/2",
-      "right-1 top-3"
+      "right-1 top-3",
+      "max-sm:text-sm"
     ),
     red: tw(
       "text-rose-500",
-      "drop-shadow-[-1px_2px_0_rgba(255,63,94,0.5)]"
+      "sm:drop-shadow-[-1px_2px_0_rgba(255,63,94,0.5)]"
     ),
     black: tw(
       "text-neutral-900 dark:text-stone-300",
-      "drop-shadow-[-1px_2px_0_rgba(23,23,23,0.5)]",
-      "dark:drop-shadow-[-1px_2px_0_rgba(214,211,209,0.5)]",
+      "sm:drop-shadow-[-1px_2px_0_rgba(23,23,23,0.5)]",
+      "sm:dark:drop-shadow-[-1px_2px_0_rgba(214,211,209,0.5)]",
     ),
     wild: tw(
       "text-blue-700 dark:text-blue-500",
-      "drop-shadow-[-1px_2px_0_rgba(59,130,246,0.5)]"
+      "sm:drop-shadow-[-1px_2px_0_rgba(59,130,246,0.5)]"
     )
   },
   valueIndicatorBase: tw(

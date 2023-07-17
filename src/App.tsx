@@ -34,7 +34,7 @@ export default function App() {
   return ( <>
     <Header />
 
-    <div className="flex-auto flex">
+    <div className="flex-auto flex overflow-x-auto">
       {!room.id && <>
         <div className={styles.foundRoomContainer}>
           {foundRoomIDs.map(id => <PublicRoom key={id} roomID={id} />)}

@@ -4,7 +4,8 @@ import Card from "./Card";
 
 const styles = {
   container: tw(
-    "flex flex-col space-y-0.5"
+    "flex flex-col space-y-0.5 p-1",
+    "max-w-full"
   ),
   row: tw(
     "flex space-x-0.5"
