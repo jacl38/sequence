@@ -4,7 +4,7 @@ export type BoardSpace = {
 }
 
 export type Chip = {
-  color: "blue" | "green" | "empty",
+  color: "purple" | "green" | "empty",
   permanent?: boolean
 }
 
@@ -15,9 +15,9 @@ export type Board = {
 
 export type GameState =
   | "lobby"
-  | "turn-blue"
+  | "turn-purple"
   | "turn-green"
-  | "end-blue"
+  | "end-purple"
   | "end-green"
   | "end-tie"
 

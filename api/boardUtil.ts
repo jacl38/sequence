@@ -6,7 +6,7 @@ export function makeBoard(): Board {
   for(let i = 0; i < 10; i++) {
     const row: {
       space: BoardSpace,
-      chip: { color: "blue" | "green" | "empty" }
+      chip: { color: "purple" | "green" | "empty" }
     }[] = [];
     for(let j = 0; j < 10; j++) {
       row.push({

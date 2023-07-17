@@ -48,7 +48,26 @@ const styles = {
     "-translate-x-1/2",
     "self-baseline",
     "left-4 bottom-1"
-  )
+  ),
+  chipIndicator: {
+    base: tw(
+      "absolute",
+      "left-1/2 top-1/2",
+      "-translate-x-1/2 -translate-y-1/2",
+      "w-5 h-5",
+      "border-4",
+      "shadow-inner shadow-black/20",
+      "rounded-full"
+    ),
+    green: tw(
+      "bg-green-300",
+      "border-green-500"
+    ),
+    purple: tw(
+      "bg-purple-300",
+      "border-purple-500"
+    )
+  }
 }
 
 function suitToUnicode(suit: BoardSpace["suit"]) {
@@ -105,6 +124,11 @@ export default function Card({ cardType, chip, onClick }: CardProps) {
   );
   const value = valueToChar(cardType.value);
 
+  const chipStyle = tw(
+    styles.chipIndicator.base,
+    styles.chipIndicator[chip.color as "green" | "purple"] ?? "hidden"
+  );
+
   return (
     <button onClick={onClick} className={styles.container}>
       <span className={suitStyle}>
@@ -113,6 +137,7 @@ export default function Card({ cardType, chip, onClick }: CardProps) {
       <span className={valueStyle}>
         {value}
       </span>
+      <div className={chipStyle}></div>
     </button>
   );
 }

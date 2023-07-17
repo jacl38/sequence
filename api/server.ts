@@ -95,7 +95,7 @@ io.on("connection", socket => {
       alert("You need at least two players to start the game.\nYou might need to refresh the page and try again.");
       return;
     }
-    room.gameState = "turn-blue";
+    room.gameState = "turn-purple";
     signalChange();
   });
 
