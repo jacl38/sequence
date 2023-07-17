@@ -1,15 +1,19 @@
 import { useState } from "react";
-import socket from "../socket";
 import { filterRoomIDInput, validRoomIDCharacters, isValidRoomID } from "../util/room";
 import tw from "../util/tw";
+import socket from "../socket";
 
 const styles = {
   roomIDInput: tw(
     "[&>input]:py-2 [&>input]:px-3",
     "overflow-hidden",
     "font-mono",
-    "bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10",
-    "border-4 border-opacity-20 border-white dark:border-black dark:border-opacity-20",
+    "bg-white bg-opacity-10",
+    "dark:bg-gray-500 dark:bg-opacity-10",
+    "border-white border-opacity-20",
+    "dark:border-gray-500 dark:border-opacity-20",
+    "border-4",
+    "dark:border-opacity-20",
     "rounded-xl",
     "flex",
     "hover:scale-105",
@@ -30,8 +34,10 @@ export default function RoomIDEntry() {
 
   function joinRoom() {
     if(!isValidRoomID(enteredRoomID)) return;
-    socket.emit("test-message", (message: any) => {
-      console.log(message);
+    socket.emit("join-room", enteredRoomID, (success: boolean) => {
+      if(!success) {
+        alert(`Failed to join room ${enteredRoomID}\n\nCheck the Room ID and try again`);
+      }
     });
   }
 

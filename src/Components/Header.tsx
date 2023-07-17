@@ -6,6 +6,10 @@ import { useRoom } from "../store/store";
 import RoomIDEntry from "./RoomIDEntry";
 import DarkSwitcher from "./DarkSwitcher";
 import CreateRoomButton from "./CreateRoomButton";
+import socket from "../socket";
+import { useEffect } from "react";
+import { Room } from "../store/types";
+import BeginButton from "./BeginButton";
 
 const styles = {
   outerContainer: tw(
@@ -24,8 +28,15 @@ const styles = {
   }
 }
 
+
 export default function Header() {
   const [room, setRoom] = useRoom();
+
+  useEffect(() => {
+    socket.on("entered-room", (newRoom: Room) => {
+      setRoom(newRoom);
+    });
+  }, []);
 
   return ( <>
     <header className={styles.outerContainer}>
@@ -35,6 +46,7 @@ export default function Header() {
         {room.id
           ? <>
             <RoomIDIndicator />
+            <BeginButton />
             <PublicPrivateSwitch />
           </>
           : <>

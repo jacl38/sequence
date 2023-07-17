@@ -8,9 +8,9 @@ const styles = {
     "flex items-center justify-center",
     "font-black",
     "rounded-full",
-    "bg-white dark:bg-black",
-    "bg-opacity-10 hover:bg-opacity-20 dark:hover:bg-opacity-20",
-    "border-4 border-opacity-20 border-white dark:border-black",
+    "bg-white dark:bg-gray-500",
+    "bg-opacity-10 dark:bg-opacity-10 hover:bg-opacity-20 dark:hover:bg-opacity-20",
+    "border-4 border-opacity-20 border-white dark:border-gray-500 dark:border-opacity-20",
     "overflow-hidden",
     "transition-all"
   ),

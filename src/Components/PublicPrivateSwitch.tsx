@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+import socket from "../socket";
 import { useRoom } from "../store/store";
 import tw from "../util/tw";
+import { Room } from "../store/types";
 
 const styles = {
   publicIndicator: tw(
@@ -8,7 +11,7 @@ const styles = {
     "text-sm",
     "hover:scale-110",
     "font-semibold",
-    "cursor-pointer",
+    "cursor-pointer select-none",
     "transition-[transform]"
   ),
 }
@@ -16,13 +19,24 @@ const styles = {
 export default function PublicPrivateSwitch() {
   const [room, setRoom] = useRoom();
 
+  function setPublic(isPublic: boolean) {
+    setRoom({ public: isPublic });
+    socket.emit("set-public", isPublic);
+  }
+  
+  useEffect(() => {
+    socket.on("room-config-changed", (newRoom: Room) => {
+      setRoom(newRoom);
+    });
+  }, [room]);
+
   return (
     <div className="relative flex items-center">
       <input
         hidden
         type="checkbox"
-        defaultChecked={room.public}
-        onChange={e => setRoom({ ...room, public: e.target.checked })}
+        checked={room.public}
+        onChange={e => setPublic(e.target.checked)}
         id="public"
       />
       <label

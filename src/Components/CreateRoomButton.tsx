@@ -3,7 +3,12 @@ import styled from "../util/styled"
 
 export default function CreateRoomButton() {
   function createRoom() {
-    socket.emit("create-room")
+    socket.emit("create-room", (id?: string) => {
+      if(!id) {
+        alert("Failed to create room");
+        return;
+      }
+    });
   }
 
   return <styled.Button
