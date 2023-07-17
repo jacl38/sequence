@@ -37,7 +37,7 @@ export default function Header() {
         {room.id
           ? <>
             <RoomIDIndicator />
-            <BeginButton />
+            {room.gameState === "lobby" && <BeginButton />}
             {room.users.length < 2 && <PublicPrivateSwitch />}
           </>
           : <>

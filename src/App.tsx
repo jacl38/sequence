@@ -39,7 +39,7 @@ export default function App() {
     {room.users.length < 2 && room.id && <>
       <div className="flex flex-auto items-center justify-center text-3xl animate-fadeIn">
         <Styled.Spinner />
-        <span className="mx-4 animate-pulse">Waiting for partner...</span>
+        <span className="mx-4 animate-pulse">Waiting for a partner...</span>
       </div>
     </>}
 

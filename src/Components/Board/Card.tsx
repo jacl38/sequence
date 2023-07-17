@@ -5,8 +5,6 @@ type CardProps = {
   chip: Chip
 }
 
-
-
 export default function Card({ cardType, chip }: CardProps) {
 
   cardType
