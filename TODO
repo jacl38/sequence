@@ -8,8 +8,28 @@
     [x] Show the option to create a room
     [x] Show the option to join a room
   [ ] When no clients left in a room, or room age > 2 hours, delete the room
-  [X] When two clients are in the room, show the users a "Begin" button
+  [x] When two clients are in the room, show the users a "Begin" button
   [ ] If one player leaves the room, delete the room.
+
+[ ] Board Things
+  [ ] Card visuals
+    [x] Suit and value
+    [x] Click callback function to parent component
+  [ ] Board layout
+    [ ] 10x10 grid
+      [ ] Responsiveness on resize
+      [ ] Rotate on mobile?
+  [ ] Board functionality
+    [ ] Handle clicks from child card components
+      [ ] Send intents to server, server sends back new board (if valid intent)
+
+[ ] UI
+  [ ] Hand
+  [ ] Deck
+  [ ] Chips
+
+[ ] Help menu
 
 [ ] Game Screen
   [ ] Show end game button
+  [ ] Show play again button at the end

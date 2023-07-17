@@ -1,6 +1,6 @@
-import Styled from "../util/styled";
-import { useRoom } from "../store/store";
-import socket from "../socket";
+import Styled from "../../util/styled";
+import { useRoom } from "../../store/store";
+import socket from "../../socket";
 
 export default function BeginButton() {
 

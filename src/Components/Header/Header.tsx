@@ -1,8 +1,8 @@
-import { tw } from "../util/styled";
+import { tw } from "../../util/styled";
 import LogoTitle from "./LogoTitle";
 import RoomIDIndicator from "./RoomIDIndicator";
 import PublicPrivateSwitch from "./PublicPrivateSwitch";
-import { useRoom } from "../store/store";
+import { useRoom } from "../../store/store";
 import RoomIDEntry from "./RoomIDEntry";
 import DarkSwitcher from "./DarkSwitcher";
 import CreateRoomButton from "./CreateRoomButton";

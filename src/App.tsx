@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Header from "./Components/Header";
+import Header from "./Components/Header/Header";
 import { useRoom } from "./store/store";
 import Styled, { tw } from "./util/styled";
 import socket from "./socket";

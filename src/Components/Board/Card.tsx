@@ -3,7 +3,8 @@ import { tw } from "../../util/styled"
 
 type CardProps = {
   cardType: BoardSpace,
-  chip: Chip
+  chip: Chip,
+  onClick?: () => void
 }
 
 const styles = {
@@ -83,7 +84,7 @@ function valueToChar(value: BoardSpace["value"]) {
   }
 }
 
-export default function Card({ cardType, chip }: CardProps) {
+export default function Card({ cardType, chip, onClick }: CardProps) {
 
   const colorName = suitToColor(cardType.suit);
   const suitStyle = tw(
@@ -99,13 +100,13 @@ export default function Card({ cardType, chip }: CardProps) {
   const value = valueToChar(cardType.value);
 
   return (
-    <div className={styles.container}>
+    <button onClick={onClick} className={styles.container}>
       <span className={suitStyle}>
         {symbol}
       </span>
       <span className={valueStyle}>
         {value}
       </span>
-    </div>
+    </button>
   );
 }

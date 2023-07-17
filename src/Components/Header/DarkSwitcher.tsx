@@ -1,5 +1,5 @@
-import { useDarkMode } from "../Hooks/useDarkMode"
-import { tw } from "../util/styled";
+import { useDarkMode } from "../../Hooks/useDarkMode"
+import { tw } from "../../util/styled";
 
 const styles = {
   container: tw(
@@ -20,12 +20,12 @@ const styles = {
     "whitespace-nowrap",
     "group-hover:opacity-100 opacity-0 transition-opacity"
   ),
-  moon: tw(
+  sun: tw(
     "absolute right-3",
     "dark:rotate-90 dark:scale-0",
     "transition-all"
   ),
-  sun: tw(
+  moon: tw(
     "absolute right-3",
     "rotate-90 dark:rotate-0",
     "scale-0 dark:scale-100",
@@ -39,7 +39,7 @@ export default function DarkSwitcher() {
 
   return (
     <button className={styles.container} onClick={() => setDark(!dark)}>
-      <span className={styles.label}>{dark ? "Light" : "Dark"} Mode</span>
+      <span className={styles.label}>{dark ? "Dark" : "Light"} Mode</span>
       <span className={styles.sun}>&#9728;&#xFE0E;</span>
       <span className={styles.moon}>&#127769;&#xFE0E;</span>
     </button>

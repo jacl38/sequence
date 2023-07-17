@@ -1,4 +1,4 @@
-import { tw } from "../util/styled";
+import { tw } from "../../util/styled";
 
 const styles = {
   text: tw(
