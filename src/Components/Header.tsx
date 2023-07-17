@@ -6,17 +6,14 @@ import { useRoom } from "../store/store";
 import RoomIDEntry from "./RoomIDEntry";
 import DarkSwitcher from "./DarkSwitcher";
 import CreateRoomButton from "./CreateRoomButton";
-import socket from "../socket";
-import { useEffect } from "react";
-import { Room } from "../store/types";
 import BeginButton from "./BeginButton";
 
 const styles = {
   outerContainer: tw(
-    "bg-indigo-800 dark:bg-indigo-950 transition-[background-color]",
+    "bg-blue-800 dark:bg-blue-950 transition-[background-color]",
     "text-white",
     "overflow-hidden",
-    "flex flex-row justify-between items-center",
+    "flex flex-row justify-between items-center"
   ),
   left: {
     container: tw(
@@ -30,13 +27,7 @@ const styles = {
 
 
 export default function Header() {
-  const [room, setRoom] = useRoom();
-
-  useEffect(() => {
-    socket.on("entered-room", (newRoom: Room) => {
-      setRoom(newRoom);
-    });
-  }, []);
+  const [room,] = useRoom();
 
   return ( <>
     <header className={styles.outerContainer}>
@@ -47,7 +38,7 @@ export default function Header() {
           ? <>
             <RoomIDIndicator />
             <BeginButton />
-            <PublicPrivateSwitch />
+            {room.users.length < 2 && <PublicPrivateSwitch />}
           </>
           : <>
             <RoomIDEntry />

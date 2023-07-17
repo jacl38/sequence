@@ -15,7 +15,7 @@ const styles = {
 }
 
 export default function RoomIDIndicator() {
-  const [room, setRoom] = useRoom();
+  const [room,] = useRoom();
 
   return (
     <button

@@ -17,18 +17,11 @@ const styles = {
 }
 
 export default function PublicPrivateSwitch() {
-  const [room, setRoom] = useRoom();
+  const [room,] = useRoom();
 
   function setPublic(isPublic: boolean) {
-    setRoom({ public: isPublic });
     socket.emit("set-public", isPublic);
   }
-  
-  useEffect(() => {
-    socket.on("room-config-changed", (newRoom: Room) => {
-      setRoom(newRoom);
-    });
-  }, [room]);
 
   return (
     <div className="relative flex items-center">

@@ -8,7 +8,7 @@
     [x] Show the option to create a room
     [x] Show the option to join a room
   [ ] When no clients left in a room, or room age > 2 hours, delete the room
-  [ ] When two clients are in the room, show the users a "Begin" button
+  [X] When two clients are in the room, show the users a "Begin" button
   [ ] If one player leaves the room, delete the room.
 
 [ ] Game Screen
