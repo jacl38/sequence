@@ -125,6 +125,8 @@ io.on("connection", socket => {
         // remove room entirely if no users are left
         rooms.splice(rooms.indexOf(room), 1);
       }
+      room.gameState = "lobby";
+      room.board = makeBoard();
     }
     room?.users.forEach(user => {
       getClientByID(user)?.emit("room-updated", room);
