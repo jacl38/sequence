@@ -7,7 +7,8 @@ const initialRoomState: Room = {
   users: [],
   public: false,
   gameState: "lobby",
-  board: []
+  board: [],
+  myHand: []
 }
 
 export const roomSlice = createSlice({

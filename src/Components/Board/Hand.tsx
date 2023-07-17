@@ -28,18 +28,13 @@ type HandProps = {
 
 export default function Hand({ onHover, onExit }: HandProps) {
   const [room,] = useRoom();
-  const [hand, setHand] = useState<Hand>([]);
 
   const color = room.users.findIndex(u => u === socket.id) === 0 ? "green" : "purple";
-
-  useEffect(() => {
-    setHand(room.myHand);
-  }, []);
 
   return (<>
     <div className={styles.container(color)}>
       <p className={styles.label}>Hand</p>
-      {hand?.map((card, i) => (
+      {room.myHand?.map((card, i) => (
         <Card
           onHover={() => onHover?.(i)}
           onExit={onExit}

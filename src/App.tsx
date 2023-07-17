@@ -22,6 +22,7 @@ export default function App() {
 
   useEffect(() => {
     socket.on("room-updated", (newRoom: Room) => {
+      console.log(newRoom.myHand);
       setRoom(newRoom);
     });
     (async () => {
