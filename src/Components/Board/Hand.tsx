@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRoom } from "../../store/store";
 import socket from "../../socket";
-import { Hand } from "../../store/types";
+import { BoardSpace, Hand } from "../../store/types";
 import { tw } from "../../util/styled";
 import Card from "./Card";
 

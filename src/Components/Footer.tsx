@@ -20,7 +20,7 @@ export default function Footer() {
   return (<>
     <footer className={styles.container}>
       <p>Designed and developed by <a href="https://jclark.space" className={styles.link}>Jack Clark</a></p>
-      <a href="" className={styles.link}>Source</a>
+      <a href="https://github.com/jacl38/sequence" className={styles.link}>Source</a>
     </footer>
   </>);
 }
