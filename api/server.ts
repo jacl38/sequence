@@ -1,17 +1,13 @@
 import express from "express";
 import { Server, Socket } from "socket.io"
 import { UUID } from "./util";
+import { Room } from "./types";
+import { makeBoard } from "./boardUtil";
 
 const app = express();
 const server = app.listen(3000);
 
 const io = new Server(server, { cors: { origin: "*" } });
-
-type Room = {
-  id: string,
-  public: boolean,
-  users: string[]
-}
 
 const rooms: Room[] = [];
 const clients: Socket[] = [];
@@ -48,11 +44,13 @@ io.on("connection", socket => {
     const newRoom: Room = {
       id: UUID(),
       public: false,
-      users: [socket.id]
+      users: [socket.id],
+      gameState: "lobby",
+      board: makeBoard()
     };
     rooms.push(newRoom);
     console.log(`Created room ${newRoom.id} and added ${socket.id} to it.`);
-    socket.emit("entered-room", newRoom);
+    socket.emit("room-updated", newRoom);
     callback(newRoom.id);
   });
 
@@ -61,7 +59,7 @@ io.on("connection", socket => {
     if(room) {
       room.public = isPublic;
       room.users.forEach(user => {
-        getClientByID(user)?.emit("room-config-changed", room);
+        getClientByID(user)?.emit("room-updated", room);
       });
     }
   });
@@ -73,6 +71,11 @@ io.on("connection", socket => {
       room.users.push(socket.id);
       console.log(`Added ${socket.id} to room ${roomId}.`);
       socket.emit("entered-room", room);
+
+      room.users.forEach(user => {
+        getClientByID(user)?.emit("room-updated", room);
+      });
+
       callback(true);
     } else {
       callback(false);

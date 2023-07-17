@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 const initialRoomState: Room = {
   id: "",
   users: [],
-  public: false
+  public: false,
+  gameState: "lobby",
+  board: []
 }
 
 export const roomSlice = createSlice({
