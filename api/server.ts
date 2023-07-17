@@ -16,6 +16,15 @@ function getClientByID(id: string) {
   return clients.find(client => client.id === id);
 }
 
+// clean up empty rooms every 10 seconds
+setInterval(() => {
+  rooms.forEach(room => {
+    if(room.users.length === 0) {
+      rooms.splice(rooms.indexOf(room), 1);
+    }
+  });
+}, 10000);
+
 app.get("/api/rooms", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const data = {
@@ -27,6 +36,18 @@ app.get("/api/rooms", (req, res) => {
 io.on("connection", socket => {
   clients.push(socket);
   console.log("User connected:", socket.id);
+
+  function getRoom() {
+    return rooms.find(room => room.users.includes(socket.id));
+  }
+
+  function signalChange() {
+    const room = getRoom();
+    if(!room) return;
+    room.users.forEach(user => {
+      getClientByID(user)?.emit("room-updated", room);
+    });
+  }
 
   socket.on("test-message", data => {
     console.log("got pinged by", socket.id);
@@ -50,12 +71,12 @@ io.on("connection", socket => {
     };
     rooms.push(newRoom);
     console.log(`Created room ${newRoom.id} and added ${socket.id} to it.`);
-    socket.emit("room-updated", newRoom);
+    signalChange();
     callback(newRoom.id);
   });
 
   socket.on("set-public", (isPublic: boolean) => {
-    const room = rooms.find(room => room.users.includes(socket.id));
+    const room = getRoom();
     if(room) {
       room.public = isPublic;
       room.users.forEach(user => {
@@ -64,43 +85,50 @@ io.on("connection", socket => {
     }
   });
 
-  socket.on("join-room", (roomId: string, callback: (success: boolean) => void) => {
+  socket.on("begin-game", () => {
+    const room = getRoom();
+    if(!room) {
+      alert("You are not in a room.\nYou might need to refresh the page and try again.");
+      return;
+    }
+    if(room.users.length < 2) {
+      alert("You need at least two players to start the game.\nYou might need to refresh the page and try again.");
+      return;
+    }
+    room.gameState = "turn-blue";
+    signalChange();
+  });
+
+  socket.on("join-room", (roomId: string, callback: (status: "success" | "full" | "not-found") => void) => {
     console.log(`${socket.id} is trying to join room ${roomId}.`);
     const room = rooms.find(room => room.id === roomId);
     if(room && !room.users.includes(socket.id) && room.users.length < 2) {
       room.users.push(socket.id);
       console.log(`Added ${socket.id} to room ${roomId}.`);
       socket.emit("entered-room", room);
+      
+      signalChange();
 
-      room.users.forEach(user => {
-        getClientByID(user)?.emit("room-updated", room);
-      });
-
-      callback(true);
+      callback("success");
     } else {
-      callback(false);
+      callback(room ? "full" : "not-found");
     }
   });
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
+    const room = getRoom();
+    if(room) {
+      // remove disconnecting user from room
+      room.users.splice(room.users.indexOf(socket.id), 1);
+      if(room.users.length === 0) {
+        // remove room entirely if no users are left
+        rooms.splice(rooms.indexOf(room), 1);
+      }
+    }
+    room?.users.forEach(user => {
+      getClientByID(user)?.emit("room-updated", room);
+    });
     clients.splice(clients.indexOf(socket), 1);
   });
 });
-
-// Socket events:
-
-// ==Server==
-// "create-room" () => void
-//   Generates a new room ID
-// "join-room" (roomId: string) => void
-//   Adds the user to the room
-// "leave-room" () => void
-//   Removes the user from the room
-// "set-public" (isPublic: boolean) => void
-
-// ==Client==
-// "room-ids" () => roomIds: string[]
-//   Returns a list of room IDs
-// "room-users" (roomId: string) => users: string[]
-//   Returns a list of users in the room

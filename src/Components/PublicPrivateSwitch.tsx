@@ -1,8 +1,6 @@
-import { useEffect } from "react";
 import socket from "../socket";
 import { useRoom } from "../store/store";
 import tw from "../util/tw";
-import { Room } from "../store/types";
 
 const styles = {
   publicIndicator: tw(

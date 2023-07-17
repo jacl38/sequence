@@ -34,10 +34,10 @@ export default function RoomIDEntry() {
 
   function joinRoom() {
     if(!isValidRoomID(enteredRoomID)) return;
-    socket.emit("join-room", enteredRoomID, (success: boolean) => {
-      if(!success) {
-        alert(`Failed to join room ${enteredRoomID}\n\nCheck the Room ID and try again`);
-      }
+    socket.emit("join-room", enteredRoomID, (status: "success" | "full" | "not-found") => {
+      if(status === "success") return;
+      if(status === "full") alert("Couldn't join room: Room is full.")
+      if(status === "not-found") alert("Couldn't join room: Room not found. Check the Room ID and try again.");
     });
   }
 
