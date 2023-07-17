@@ -1,15 +1,19 @@
 import express from "express";
 import { Server, Socket } from "socket.io"
 import { UUID } from "./util";
-import { Hand, Room } from "./types";
+import { BoardSpace, CardSuits, CardValues, Hand, Room } from "./types";
 import { makeBoard } from "./boardUtil";
+import { shuffle } from "./mathUtil";
 
 const app = express();
 const server = app.listen(3000);
 
 const io = new Server(server, { cors: { origin: "*" } });
 
-const rooms: ({ hands?: { [key: string]: Hand } } & Omit<Room, "myHand">)[] = [];
+const rooms: ({
+  hands?: { [key: string]: Hand },
+  remainingCards?: Hand
+} & Omit<Room, "myHand">)[] = [];
 const clients: Socket[] = [];
 
 function getClientByID(id: string) {
@@ -47,7 +51,9 @@ io.on("connection", socket => {
     if(!room) return;
     room.users.forEach(user => {
       const filteredRoom = {...room};
+      // removing secret data (other user's hand, cards left in the deck)
       delete filteredRoom.hands;
+      delete filteredRoom.remainingCards;
       const usersHand = room.hands?.[user];
       getClientByID(user)?.emit("room-updated", { ...filteredRoom, myHand: usersHand });
     });
@@ -69,15 +75,7 @@ io.on("connection", socket => {
       public: false,
       users: [socket.id],
       hands: {
-        [socket.id]: [
-          { suit: "clubs", value: "ace" },
-          { suit: "clubs", value: "two" },
-          { suit: "clubs", value: "three" },
-          { suit: "clubs", value: "four" },
-          { suit: "clubs", value: "five" },
-          { suit: "clubs", value: "six" },
-          { suit: "clubs", value: "seven" }
-        ]
+        [socket.id]: []
       },
       gameState: "lobby",
       board: makeBoard()
@@ -108,7 +106,31 @@ io.on("connection", socket => {
       alert("You need at least two players to start the game.\nYou might need to refresh the page and try again.");
       return;
     }
-    room.gameState = "turn-purple";
+    room.gameState = "turn-green";
+
+    // make deck
+    let deck: BoardSpace[] = [];
+    CardSuits.forEach(suit => {
+      if(suit === "wild") return;
+      CardValues.forEach(value => {
+        if(value === "wild") return;
+        deck.push({ suit, value }, { suit, value });
+      });
+    });
+
+    // shuffle deck
+    deck = shuffle(deck);
+
+    // deal cards
+    room.users.forEach(user => {
+      room.hands![user] = [];
+      for(let i = 0; i < 7; i++) {
+        room.hands![user].push(deck.pop()!);
+      }
+    });
+
+    // set remaining cards
+    room.remainingCards = deck;
     signalChange();
   });
 
