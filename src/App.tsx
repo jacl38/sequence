@@ -11,9 +11,14 @@ import WinLoseIndicator from "./Components/WinLoseIndicator";
 
 const styles = {
   foundRoomContainer: tw(
+    "w-full h-fit",
     "grid lg:grid-cols-4 md:grid-cols-2",
     "gap-4 p-4",
     "overflow-y-auto"
+  ),
+  label: tw(
+    "w-full py-3",
+    "text-center text-2xl font-bold"
   )
 }
 
@@ -42,8 +47,10 @@ export default function App() {
   return ( <>
     <Header />
 
-    <div className="flex-auto flex overflow-x-auto w-full">
+    <div className="flex-auto flex flex-col overflow-x-auto w-full">
       {!room.id && <>
+        <p className={styles.label}>Create a game and share the code with a friend.</p>
+        {foundRoomIDs.length > 0 && <p className={styles.label}>Or, pick a game from the list.</p>}
         <div className={styles.foundRoomContainer}>
           {foundRoomIDs.map(id => <PublicRoom key={id} roomID={id} />)}
         </div>
@@ -53,6 +60,13 @@ export default function App() {
         <div className="flex flex-auto items-center justify-center text-3xl animate-fadeIn">
           <Styled.Spinner />
           <span className="mx-4 animate-pulse">Waiting for a partner...</span>
+        </div>
+      </>}
+
+      {room.gameState === "lobby" && room.users.length === 2 && <>
+        <div className="flex flex-col items-center justify-center text-3xl animate-fadeIn">
+          <p className={styles.label}>You're ready to start!</p>
+          <p className={styles.label}>Press the Begin Game button above</p>
         </div>
       </>}
 

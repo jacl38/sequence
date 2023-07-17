@@ -31,7 +31,7 @@
 [ ] Bugs
   [x] One-eyed jack removal
   [x] Card hover highlight on invalid spaces (with tokens)
-  [ ] lobby (looking for game) stretch
+  [x] lobby (looking for game) stretch
 
 [ ] Help menu
 [ ] Fix room ID keyboard entry on mobile (?)
