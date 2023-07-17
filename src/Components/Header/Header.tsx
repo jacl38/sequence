@@ -13,6 +13,7 @@ const styles = {
     "bg-blue-800 dark:bg-blue-950 transition-[background-color]",
     "text-white",
     "overflow-hidden",
+    "flex-shrink-0",
     "flex flex-row justify-between items-center"
   ),
   left: {

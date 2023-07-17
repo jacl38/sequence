@@ -27,6 +27,9 @@ export default {
 			},
 			
 			transitionTimingFunction: {
+				"in-back": "cubic-bezier(0.600, -0.280, 0.735, 0.045)",
+				"out-back": "cubic-bezier(0.175,  0.885, 0.320, 1.625)",
+				"in-out-back": "cubic-bezier(0.680, -0.550, 0.265, 1.550)",
         DEFAULT: 'ease-out'
 			},
 
