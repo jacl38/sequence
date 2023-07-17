@@ -18,9 +18,9 @@ export default function Board() {
   return (
     <div className={styles.container}>
       {room.board.map((row, i) => {
-        return <div className={styles.row}>
+        return <div key={`row-${i}`} className={styles.row}>
           {row.map((card, j) => {
-            return <Card cardType={card.space} chip={card.chip} />
+            return <Card key={`card-${i}-${j}`} cardType={card.space} chip={card.chip} />
           })}
         </div>
       })}
