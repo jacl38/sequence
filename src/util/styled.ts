@@ -18,7 +18,11 @@ export function tw(...args: string[]) {
  */
 export function el<T extends keyof JSX.IntrinsicElements>(tag: T | (string & {}), style: string) {
   type ElementProps = { children?: ReactNode | ReactNode[] } & JSX.IntrinsicElements[T];
-  return (props: ElementProps) => React.createElement(tag, { className: style, ...props }, props.children);
+  return (props: ElementProps) => {
+    const classNameOmittedProps = { ...props };
+    delete classNameOmittedProps.className;
+    return React.createElement(tag, { className: tw(style, props.className ?? ""), ...classNameOmittedProps }, props.children);
+  }
 }
 
 export default {
