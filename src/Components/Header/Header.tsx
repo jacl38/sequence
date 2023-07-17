@@ -14,7 +14,8 @@ const styles = {
     "text-white",
     "overflow-hidden",
     "flex-shrink-0",
-    "flex flex-row justify-between items-center"
+    "flex flex-row justify-between items-center",
+    "z-20"
   ),
   left: {
     container: tw(

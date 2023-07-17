@@ -29,8 +29,10 @@ const styles = {
 
 function getTurnIndicator(gameState: typeof GameState[number], myColor: "green" | "purple") {
   const turnColor = gameState.split("-")[1] as "green" | "purple";
+  const turnState = gameState.split("-")[0] as "end" | "";
   if(!["green", "purple"].includes(gameState.split("-")[1])) return;
 
+  if(turnState === "end") return "Game over";
   if(turnColor === myColor) return "Your turn";
   else return "Opponent's turn";
 }

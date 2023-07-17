@@ -7,6 +7,7 @@ import { Room } from "./store/types";
 import PublicRoom from "./Components/PublicRoom";
 import Footer from "./Components/Footer";
 import PlayArea from "./Components/PlayArea";
+import WinLoseIndicator from "./Components/WinLoseIndicator";
 
 const styles = {
   foundRoomContainer: tw(
@@ -32,6 +33,10 @@ export default function App() {
     })();
   }, [room]);
 
+  const myColor = room.users.findIndex(u => u === socket.id) === 0 ? "green" : "purple";
+  const whoWon = room.gameState.split("-")[1] as "green" | "purple" | "tie";
+  const winState = whoWon === myColor ? "win" : whoWon === "tie" ? "tie" : "lose";
+
   return ( <>
     <Header />
 
@@ -50,6 +55,12 @@ export default function App() {
       </>}
 
       {room.gameState !== "lobby" && <>
+        {room.gameState.split("-")[0] === "end" && <>
+          <WinLoseIndicator
+            winState={winState}
+            onRestart={() => {}}
+            onClose={() => {}} />
+        </>}
         <PlayArea />
       </>}
     </div>
