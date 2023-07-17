@@ -2,7 +2,7 @@ import express from "express";
 import { Server, Socket } from "socket.io"
 import { UUID } from "./util";
 import { BoardSpace, CardSuits, CardValues, Hand, Room } from "./types";
-import { makeBoard } from "./boardUtil";
+import { makeBoard, validateAction } from "./boardUtil";
 import { shuffle } from "./mathUtil";
 
 const app = express();
@@ -132,6 +132,47 @@ io.on("connection", socket => {
     // set remaining cards
     room.remainingCards = deck;
     signalChange();
+  });
+
+  socket.on("suggest-change", (position: { row: number, col: number }) => {
+    const room = getRoom();
+    if(!room) {
+      alert("You are not in a room.\nYou might need to refresh the page and try again.");
+      return;
+    }
+    if(room.gameState !== "turn-green" && room.gameState !== "turn-purple") return; // not in a match state right now
+
+    const myColor = room.users.findIndex(user => user === socket.id) === 0 ? "green" : "purple";
+
+    const turnColor = room.gameState.split("-")[1];
+
+    if(myColor !== turnColor) return; // not your turn
+
+    const hand = room.hands![socket.id];
+
+    const validity = validateAction({
+      position,
+      board: room.board,
+      myColor,
+      hand
+    });
+
+    if(validity !== undefined) { // completely valid action
+      const card = hand[validity];
+      room.hands![socket.id].splice(validity, 1);
+
+      // if it's a one-eyed jack, remove the selected chip from the board
+      if((card.suit === "spades" || card.suit === "clubs") && card.value === "jack") {
+        room.board[position.row][position.col].chip.color = "empty";
+      } else {
+        // otherwise, place the chip
+        room.board[position.row][position.col].chip.color = myColor;
+      }
+
+      // pass the turn
+      room.gameState = `turn-${myColor === "green" ? "purple" : "green"}`;
+      signalChange();
+    }
   });
 
   socket.on("join-room", (roomId: string, callback: (status: "success" | "full" | "not-found") => void) => {

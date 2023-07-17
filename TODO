@@ -12,21 +12,20 @@
   [ ] If one player leaves the room, delete the room.
 
 [ ] Board Things
-  [ ] Card visuals
+  [x] Card visuals
     [x] Suit and value
     [x] Click callback function to parent component
-  [ ] Board layout
+  [x] Board layout
     [x] 10x10 grid
-      [ ] Responsiveness on resize
-      [ ] Rotate on mobile?
+      [x] Responsiveness on resize
   [ ] Board functionality
     [ ] Handle clicks from child card components
       [ ] Send intents to server, server sends back new board (if valid intent)
 
 [ ] Hand
   [x] Display player's current hand
-  [ ] Keep track of remaining cards in the deck
-  [ ] On the start of a game, add 7 cards to each hand
+  [x] Keep track of remaining cards in the deck
+  [x] On the start of a game, add 7 cards to each hand
   [ ] On the start of a turn, draw cards until hand is full (7)
 
 [ ] Help menu
