@@ -108,6 +108,9 @@ io.on("connection", socket => {
     }
     room.gameState = "turn-green";
 
+    // clear the board
+    room.board = makeBoard();
+
     // make deck
     let deck: BoardSpace[] = [];
     CardSuits.forEach(suit => {

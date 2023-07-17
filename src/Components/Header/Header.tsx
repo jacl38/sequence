@@ -7,6 +7,7 @@ import RoomIDEntry from "./RoomIDEntry";
 import DarkSwitcher from "./DarkSwitcher";
 import CreateRoomButton from "./CreateRoomButton";
 import BeginButton from "./BeginButton";
+import RematchButton from "./RematchButton";
 
 const styles = {
   outerContainer: tw(
@@ -47,6 +48,10 @@ export default function Header() {
             <CreateRoomButton />
           </>
         }
+
+        {room.gameState.split("-")[0] === "end" && <>
+          <RematchButton />
+        </>}
 
       </div>
       <div className="p-4">

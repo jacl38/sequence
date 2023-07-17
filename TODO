@@ -11,27 +11,26 @@
   [x] When two clients are in the room, show the users a "Begin" button
   [ ] If one player leaves the room, delete the room.
 
-[ ] Board Things
+[x] Board Things
   [x] Card visuals
     [x] Suit and value
     [x] Click callback function to parent component
   [x] Board layout
     [x] 10x10 grid
       [x] Responsiveness on resize
-  [ ] Board functionality
-    [ ] Handle clicks from child card components
-      [ ] Send intents to server, server sends back new board (if valid intent)
+  [x] Board functionality
+    [x] Handle clicks from child card components
+      [x] Send intents to server, server sends back new board (if valid intent)
 
-[ ] Hand
+[x] Hand
   [x] Display player's current hand
   [x] Keep track of remaining cards in the deck
   [x] On the start of a game, add 7 cards to each hand
-  [ ] On the start of a turn, draw cards until hand is full (7)
+  [x] On the start of a turn, draw cards until hand is full (7)
 
 [ ] Bugs
   [ ] One-eyed jack removal
   [ ] Card hover highlight on invalid spaces (with tokens)
-  [ ] 
 
 [ ] Help menu
 [ ] Fix room ID keyboard entry on mobile (?)
@@ -39,3 +38,9 @@
 [ ] Game Screen
   [ ] Show end game button
   [ ] Show play again button at the end
+  [ ] Make lobby (pre-begin game) screen more interesting
+
+[ ] End screen
+  [x] Close win/lose screen
+  [x] Show rematch button in header
+  [ ] Hook up rematch button to game state and send intent to WS

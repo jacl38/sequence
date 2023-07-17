@@ -37,6 +37,8 @@ export default function App() {
   const whoWon = room.gameState.split("-")[1] as "green" | "purple" | "tie";
   const winState = whoWon === myColor ? "win" : whoWon === "tie" ? "tie" : "lose";
 
+  const [showWinLoseIndicator, setShowWinLoseIndicator] = useState(true);
+
   return ( <>
     <Header />
 
@@ -55,11 +57,11 @@ export default function App() {
       </>}
 
       {room.gameState !== "lobby" && <>
-        {room.gameState.split("-")[0] === "end" && <>
+        {room.gameState.split("-")[0] === "end" && showWinLoseIndicator && <>
           <WinLoseIndicator
             winState={winState}
-            onRestart={() => {}}
-            onClose={() => {}} />
+            onRestart={() => socket.emit("begin-game")}
+            onClose={() => setShowWinLoseIndicator(false)} />
         </>}
         <PlayArea />
       </>}

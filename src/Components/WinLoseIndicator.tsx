@@ -47,10 +47,7 @@ function getWinMessage(winState: "win" | "lose" | "tie") {
 }
 
 export default function WinLoseIndicator({ winState, onRestart, onClose }: WinLoseIndicatorProps) {
-  
-  const [hidden, setHidden] = useState(false);
-
-  return (!hidden && <>
+  return ( <>
     <div className={styles.shade}></div>
     <div className={styles.container}>
       <div className={styles.card}>
