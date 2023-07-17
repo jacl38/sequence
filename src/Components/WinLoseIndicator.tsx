@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Styled, { tw } from "../util/styled";
 
 type WinLoseIndicatorProps = {

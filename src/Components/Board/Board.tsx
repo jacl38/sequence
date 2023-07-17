@@ -47,7 +47,10 @@ export default function Board({ hoveredHandCard }: { hoveredHandCard?: number })
     const oppositeColor = myColor === "green" ? "purple" : "green";
     if(isOneEyedJack(hoveredCard) && card.chip.color === oppositeColor) return true;
 
-    if(hoveredCard.suit === card.space.suit && hoveredCard.value === card.space.value) return true;
+    const sameSuit = hoveredCard.suit === card.space.suit;
+    const sameValue = hoveredCard.value === card.space.value;
+    const noChip = card.chip.color === "empty";
+    if(sameSuit && sameValue && noChip) return true;
     return false;
   }
 

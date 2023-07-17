@@ -30,7 +30,7 @@
 
 [ ] Bugs
   [x] One-eyed jack removal
-  [ ] Card hover highlight on invalid spaces (with tokens)
+  [x] Card hover highlight on invalid spaces (with tokens)
   [ ] lobby (looking for game) stretch
 
 [ ] Help menu
