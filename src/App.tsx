@@ -44,7 +44,11 @@ export default function App() {
     </>}
 
     {room.gameState !== "lobby" && <>
-      <Card cardType={{ suit: "diamonds", value: "four" }} chip={{ color: "empty" }} />
+      <div className="relative">
+        <Card cardType={{ suit: "diamonds", value: "four" }} chip={{ color: "empty" }} />
+        <Card cardType={{ suit: "spades", value: "ace" }} chip={{ color: "empty" }} />
+        <Card cardType={{ suit: "wild", value: "wild" }} chip={{ color: "empty" }} />
+      </div>
     </>}
   </> );
 }
