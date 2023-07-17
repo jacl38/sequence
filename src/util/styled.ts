@@ -23,10 +23,14 @@ export function el<T extends keyof JSX.IntrinsicElements>(tag: T | (string & {})
 
 export default {
   Button: el("button", tw(
-    "bg-white dark:bg-black bg-opacity-10 dark:bg-opacity-10",
+    "bg-white bg-opacity-10",
+    "dark:bg-gray-500 dark:bg-opacity-10",
+    "border-white border-opacity-20",
+    "dark:border-gray-500 dark:border-opacity-20",
+    "hover:bg-opacity-20",
+    "dark:hover:bg-opacity-20",
     "border-4",
-    "border-opacity-20 border-white",
-    "dark:border-black dark:border-opacity-20",
+    "dark:border-opacity-20",
     "rounded-xl",
     "hover:scale-105",
     "py-2 px-3",

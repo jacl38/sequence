@@ -13,12 +13,30 @@ export const roomSlice = createSlice({
   initialState: initialRoomState,
   reducers: {
     setPublic: (state, action: PayloadAction<boolean>) => {
-      state.public = action.payload;
+      return {
+        ...state,
+        public: action.payload
+      }
     },
+    setUsers: (state, action: PayloadAction<string[]>) => {
+      return {
+        ...state,
+        users: action.payload
+      }
+    },
+    setId: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        id: action.payload
+      }
+    },
+    setRoom: (state, action: PayloadAction<Partial<Room>>) => {
+      return { ...state, ...action.payload }
+    }
   }
 });
 
-export const { setPublic } = roomSlice.actions;
+export const { setPublic, setUsers, setId, setRoom } = roomSlice.actions;
 
 export const roomStore = configureStore({
   reducer: {
@@ -30,9 +48,5 @@ export type RoomRootState = ReturnType<typeof roomStore.getState>;
 export type RoomDispatch = typeof roomStore.dispatch;
 
 export const useRoomState = () => useSelector((state: RoomRootState) => state.room);
-export const setRoomState = (state: Room) => {
-  roomStore.dispatch(setPublic(state.public));
-  //...
-}
-
+export const setRoomState = (state: Partial<Room>) => roomStore.dispatch(roomSlice.actions.setRoom(state));
 export const useRoom = () => [useRoomState(), setRoomState] as const;

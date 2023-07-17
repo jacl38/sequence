@@ -1,5 +1,6 @@
 import express from "express";
 import { Server, Socket } from "socket.io"
+import { UUID } from "./util";
 
 const app = express();
 const server = app.listen(3000);
@@ -14,6 +15,10 @@ type Room = {
 
 const rooms: Room[] = [];
 const clients: Socket[] = [];
+
+function getClientByID(id: string) {
+  return clients.find(client => client.id === id);
+}
 
 app.get("/api/rooms", (req, res) => {
   res.setHeader("Content-Type", "application/json");
@@ -30,6 +35,48 @@ io.on("connection", socket => {
   socket.on("test-message", data => {
     console.log("got pinged by", socket.id);
     data({ test: "asdf" });
+  });
+
+  socket.on("create-room", (callback: (id?: string) => void) => {
+
+    // check if user is already in a room
+    // if so, delete that room
+    if(rooms.some(room => room.users.includes(socket.id))) {
+      rooms.splice(rooms.findIndex(room => room.users.includes(socket.id)), 1);
+    }
+
+    const newRoom: Room = {
+      id: UUID(),
+      public: false,
+      users: [socket.id]
+    };
+    rooms.push(newRoom);
+    console.log(`Created room ${newRoom.id} and added ${socket.id} to it.`);
+    socket.emit("entered-room", newRoom);
+    callback(newRoom.id);
+  });
+
+  socket.on("set-public", (isPublic: boolean) => {
+    const room = rooms.find(room => room.users.includes(socket.id));
+    if(room) {
+      room.public = isPublic;
+      room.users.forEach(user => {
+        getClientByID(user)?.emit("room-config-changed", room);
+      });
+    }
+  });
+
+  socket.on("join-room", (roomId: string, callback: (success: boolean) => void) => {
+    console.log(`${socket.id} is trying to join room ${roomId}.`);
+    const room = rooms.find(room => room.id === roomId);
+    if(room && !room.users.includes(socket.id) && room.users.length < 2) {
+      room.users.push(socket.id);
+      console.log(`Added ${socket.id} to room ${roomId}.`);
+      socket.emit("entered-room", room);
+      callback(true);
+    } else {
+      callback(false);
+    }
   });
 
   socket.on("disconnect", () => {

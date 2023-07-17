@@ -1,16 +1,15 @@
 
 [ ] Room Management
-  [ ] If a client is already in a room:
-    [ ] Do not show them the option to create another one
-    [ ] Do not attempt to add the client to another room
-    [ ] Display room key
-  [ ] If a client is not in a room:
-    [ ] Show the option to create a room
-    [ ] Show the option to join a room
+  [x] If a client is already in a room:
+    [x] Do not show them the option to create another one
+    [x] Do not attempt to add the client to another room
+    [x] Display room key
+  [x] If a client is not in a room:
+    [x] Show the option to create a room
+    [x] Show the option to join a room
   [ ] When no clients left in a room, or room age > 2 hours, delete the room
   [ ] When two clients are in the room, show the users a "Begin" button
-  [ ] If one player leaves the room, keep the room.
-    [ ] If another player joins, replace old player with new
+  [ ] If one player leaves the room, delete the room.
 
 [ ] Game Screen
   [ ] Show end game button
