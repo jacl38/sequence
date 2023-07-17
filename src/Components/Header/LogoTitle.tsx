@@ -20,7 +20,7 @@ const styles = {
       "relative",
       "group-hover:-rotate-180",
       "flex items-center justify-center",
-      "transition-transform duration-700"
+      "transition-transform duration-500 ease-out-back"
     ),
     blackItem: tw(
       "absolute",

@@ -8,6 +8,14 @@ import PublicRoom from "./Components/PublicRoom";
 import Board from "./Components/Board/Board";
 import Footer from "./Components/Footer";
 
+const styles = {
+  foundRoomContainer: tw(
+    "grid lg:grid-cols-4 md:grid-cols-2",
+    "gap-4 p-4",
+    "overflow-y-auto"
+  )
+}
+
 export default function App() {  
   const [foundRoomIDs, setFoundRoomIDs] = useState<string[]>([]);
   const [room, setRoom] = useRoom();
@@ -16,24 +24,19 @@ export default function App() {
     socket.on("room-updated", (newRoom: Room) => {
       setRoom(newRoom);
     });
-  }, [room]);
-
-  useEffect(() => {
     (async () => {
       const res = await fetch("/api/rooms");
       const data = await res.json();
       setFoundRoomIDs(data.rooms);
     })();
-  }, []);
+  }, [room]);
 
   return ( <>
     <Header />
 
     <div className="flex-auto flex">
       {!room.id && <>
-        <div className={tw(
-          "grid lg:grid-cols-4 md:grid-cols-2 gap-4 p-4 overflow-y-auto",
-        )}>
+        <div className={styles.foundRoomContainer}>
           {foundRoomIDs.map(id => <PublicRoom key={id} roomID={id} />)}
         </div>
       </>}

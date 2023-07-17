@@ -4,10 +4,10 @@ import Card from "./Card";
 
 const styles = {
   container: tw(
-    "flex flex-col"
+    "flex flex-col space-y-0.5"
   ),
   row: tw(
-    "flex"
+    "flex space-x-0.5"
   )
 }
 

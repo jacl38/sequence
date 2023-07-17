@@ -16,7 +16,7 @@
     [x] Suit and value
     [x] Click callback function to parent component
   [ ] Board layout
-    [ ] 10x10 grid
+    [x] 10x10 grid
       [ ] Responsiveness on resize
       [ ] Rotate on mobile?
   [ ] Board functionality
