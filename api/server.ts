@@ -2,7 +2,7 @@ import express from "express";
 import { Server, Socket } from "socket.io"
 import { UUID } from "./util";
 import { BoardSpace, CardSuits, CardValues, Hand, Room } from "./types";
-import { cardCanBePlayed, hasWinCondition, makeBoard, validateAction } from "./boardUtil";
+import { cardCanBePlayed, findWinCondition, makeBoard, validateAction } from "./boardUtil";
 import { shuffle } from "./mathUtil";
 
 const app = express();
@@ -170,7 +170,8 @@ io.on("connection", socket => {
       }
 
       // check win condition
-      const win = hasWinCondition(room.board);
+      const win = findWinCondition(room.board);
+      console.log(win);
 
       if(win !== "empty") {
         room.gameState = `end-${win}`;
@@ -182,8 +183,15 @@ io.on("connection", socket => {
       const deck = room.remainingCards!;
       for(let i = 0; i < 7 - room.hands![socket.id].length; i++) {
         let card = deck.pop();
-        // check if the card has any valid placements
-        room.hands![socket.id].push(deck.pop()!);
+        if(card === undefined) break;
+
+        // check if the drawn card has any valid placements
+        // get a new one if not
+        while(!cardCanBePlayed({ card, board: room.board, myColor })) {
+          card = deck.pop();
+          if(card === undefined) break;
+        }
+        if(card !== undefined) room.hands![socket.id].push(card);
       }
 
       // check tie/forfeit condition

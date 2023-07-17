@@ -20,6 +20,9 @@ export function makeBoard(): Board {
 }
 
 export function cardCanBePlayed({ card, board, myColor }: { card: BoardSpace, board: Board, myColor: "green" | "purple" }) {
+  // always keep one-eyed jacks
+  if(card.suit === "clubs" || card.suit === "spades") return true;
+
   for(let row = 0; row < board.length; row++) {
     for(let col = 0; col < board[row].length; col++) {
       if(validateAction({
@@ -71,38 +74,58 @@ function isCorner(row: number, col: number): boolean {
   return (row === 0 && col === 0) || (row === 0 && col === 9) || (row === 9 && col === 0) || (row === 9 && col === 9);
 }
 
-export function hasWinCondition(board: Board): "green" | "purple" | "empty" {
-  for(let row = 0; row <= board.length - 4; row++) {
-    for(let col = 0; col <= board[row].length - 4; col++) {
-      const color = board[row][col].chip.color;
-
-      let horizontalSequence = true;
-      let verticalSequence = true;
-      let diagonalSequence = true;
-      for(let i = 0; i < 5; i++) {
-        // check horizontal
-        const hx = row + i;
-        const hy = col;
-        const hChip = board[hx][hy].chip.color;
-        
-        // check vertical
-        const vx = row;
-        const vy = col + i;
-        const vChip = board[vx][vy].chip.color;
-
-        // check diagonal
-        const dx = row + i;
-        const dy = col + i;
-        const dChip = board[dx][dy].chip.color;
-
-        // check if any of the sequences are broken
-
-        // if the chip is not the same color, and it's not a corner (wild), then the sequence is broken
-        if(hChip !== color && !isCorner(hx, hy)) horizontalSequence = false;
-        if(vChip !== color && !isCorner(vx, vy)) verticalSequence = false;
-        if(dChip !== color && !isCorner(dx, dy)) diagonalSequence = false;
+export function findWinCondition(board: Board): "green" | "purple" | "empty" {
+  for(let row = 0; row < board.length; row++) {
+    for(let col = 0; col < board[row].length; col++) {
+      // pivot point: [row, col]
+      
+      // pivot point is in range for a vertical sequence
+      if(row < board.length - 4) {
+        // slice the board to get the 5 chips in a row and their positions
+        const verticalColors = board.slice(row, row + 5).map((r, r0) => ({
+          color: r[col].chip.color,
+          position: { row: row + r0, col }
+        }));
+        // check if the 5 chips are all the same color (or wild corner)
+        if(verticalColors.every(color => color.color === "green" || isCorner(color.position.row, color.position.col))) return "green";
+        if(verticalColors.every(color => color.color === "purple" || isCorner(color.position.row, color.position.col))) return "purple";
       }
-      if(horizontalSequence || verticalSequence || diagonalSequence) return color;
+
+      // pivot point is in range for a horizontal sequence
+      if(col < board[row].length - 4) {
+        // slice the board to get the 5 chips in a row and their positions
+        const horizontalColors = board[row].slice(col, col + 5).map((c, c0) => ({
+          color: c.chip.color,
+          position: { row, col: col + c0 }
+        }));
+        // check if the 5 chips are all the same color (or wild corner)
+        if(horizontalColors.every(color => color.color === "green" || isCorner(color.position.row, color.position.col))) return "green";
+        if(horizontalColors.every(color => color.color === "purple" || isCorner(color.position.row, color.position.col))) return "purple";
+      }
+
+      // pivot point is in range for a diagonal sequence (top left to bottom right)
+      if(row < board.length - 4 && col < board[row].length - 4) {
+        // slice the board to get the 5 chips in a row and their positions
+        const diagonalColors = board.slice(row, row + 5).map((r, r0) => ({
+          color: r[col].chip.color,
+          position: { row: row + r0, col: col + r0 }
+        }));
+        // check if the 5 chips are all the same color (or wild corner)
+        if(diagonalColors.every(color => color.color === "green" || isCorner(color.position.row, color.position.col))) return "green";
+        if(diagonalColors.every(color => color.color === "purple" || isCorner(color.position.row, color.position.col))) return "purple";
+      }
+
+      // pivot point is in range for a diagonal sequence (bottom left to top right)        
+      if(row > 4 && col < board[row].length - 4) {
+        // slice the board to get the 5 chips in a row and their positions
+        const diagonalColors = board.slice(row - 4, row + 1).map((r, r0) => ({
+          color: r[col].chip.color,
+          position: { row: row - r0, col: col + r0 }
+        }));
+        // check if the 5 chips are all the same color (or wild corner)
+        if(diagonalColors.every(color => color.color === "green" || isCorner(color.position.row, color.position.col))) return "green";
+        if(diagonalColors.every(color => color.color === "purple" || isCorner(color.position.row, color.position.col))) return "purple";
+      }
     }
   }
   return "empty";
