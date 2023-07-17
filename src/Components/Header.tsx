@@ -1,4 +1,4 @@
-import tw from "../util/tw";
+import { tw } from "../util/styled";
 import LogoTitle from "./LogoTitle";
 import RoomIDIndicator from "./RoomIDIndicator";
 import PublicPrivateSwitch from "./PublicPrivateSwitch";

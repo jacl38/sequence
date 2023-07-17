@@ -1,5 +1,5 @@
 import { useDarkMode } from "../Hooks/useDarkMode"
-import tw from "../util/tw";
+import { tw } from "../util/styled";
 
 const styles = {
   container: tw(

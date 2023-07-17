@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { filterRoomIDInput, validRoomIDCharacters, isValidRoomID } from "../util/room";
-import tw from "../util/tw";
 import socket from "../socket";
+import { tw } from "../util/styled";
 
 const styles = {
   roomIDInput: tw(

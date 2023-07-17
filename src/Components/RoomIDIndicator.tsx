@@ -1,5 +1,5 @@
 import { useRoom } from "../store/store"
-import tw from "../util/tw"
+import { tw } from "../util/styled";
 
 const styles = {
   roomID: tw(
