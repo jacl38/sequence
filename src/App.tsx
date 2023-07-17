@@ -4,8 +4,8 @@ import { useRoom } from "./store/store";
 import Styled, { tw } from "./util/styled";
 import socket from "./socket";
 import { Room } from "./store/types";
-import Card from "./Components/Board/Card";
 import PublicRoom from "./Components/PublicRoom";
+import Board from "./Components/Board/Board";
 
 export default function App() {  
   const [foundRoomIDs, setFoundRoomIDs] = useState<string[]>([]);
@@ -44,11 +44,7 @@ export default function App() {
     </>}
 
     {room.gameState !== "lobby" && <>
-      <div className="relative">
-        <Card cardType={{ suit: "diamonds", value: "four" }} chip={{ color: "empty" }} />
-        <Card cardType={{ suit: "spades", value: "ace" }} chip={{ color: "empty" }} />
-        <Card cardType={{ suit: "wild", value: "wild" }} chip={{ color: "empty" }} />
-      </div>
+      <Board />
     </>}
   </> );
 }
