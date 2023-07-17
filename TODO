@@ -29,8 +29,9 @@
   [x] On the start of a turn, draw cards until hand is full (7)
 
 [ ] Bugs
-  [ ] One-eyed jack removal
+  [x] One-eyed jack removal
   [ ] Card hover highlight on invalid spaces (with tokens)
+  [ ] lobby (looking for game) stretch
 
 [ ] Help menu
 [ ] Fix room ID keyboard entry on mobile (?)

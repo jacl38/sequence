@@ -47,7 +47,7 @@ export function validateAction({ position, hand, board, myColor }: { position: {
   // If the opponent has a chip there, the action is only legit if the player has a one-eyed jack
   // and if the space is not marked as permanent (i.e. part of a sequence already)
   if(space.chip.color === oppositeColor) {
-    if(space.chip.permanent === false) {
+    if(!space.chip.permanent) {
       const jackIndex = hand.findIndex(card => (card.suit === "spades" || card.suit === "clubs") && card.value === "jack");
       if(jackIndex !== -1) return jackIndex;
     }
