@@ -27,13 +27,22 @@ export default {
     "dark:bg-gray-500 dark:bg-opacity-10",
     "border-white border-opacity-20",
     "dark:border-gray-500 dark:border-opacity-20",
-    "hover:bg-opacity-20",
-    "dark:hover:bg-opacity-20",
     "border-4",
     "dark:border-opacity-20",
     "rounded-xl",
-    "hover:scale-105",
+    "[&:not(:disabled)]:hover:bg-opacity-20",
+    "[&:not(:disabled)]:dark:hover:bg-opacity-20",
+    "[&:not(:disabled)]:hover:scale-105",
+    "disabled:opacity-50 disabled:cursor-not-allowed",
     "py-2 px-3",
     "transition-all"
+  )),
+  Spinner: el("div", tw(
+    "border-8 border-black/25 border-t-transparent",
+    "dark:border-white/25 dark:border-t-transparent",
+    "rounded-full",
+    "w-8 h-8",
+    "animate-spin",
+    "transition-colors"
   ))
 }

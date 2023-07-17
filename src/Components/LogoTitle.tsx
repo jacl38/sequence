@@ -10,7 +10,7 @@ const styles = {
   decor: {
     container: tw(
       "group-hover:rotate-180",
-      "transition-transform duration-500",
+      "transition-transform duration-500 ease-out",
       "origin-center",
       "absolute",
       "pointer-events-none",
