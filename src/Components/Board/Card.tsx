@@ -9,9 +9,9 @@ type CardProps = {
 
 const styles = {
   container: tw(
-    "max-sm:w-[9vw] max-sm:h-[9vw]",
-    "md:w-14 md:h-14",
-    "w-12 h-12",
+    "max-xxs:w-8 max-xxs:h-8",
+    "w-[9vw] h-[9vw]",
+    "sm:w-12 sm:h-12",
     "aspect-square",
     "relative",
     "bg-gradient-to-bl from-white to-stone-200 dark:from-stone-800 dark:to-stone-900",
@@ -22,15 +22,14 @@ const styles = {
     "hover:z-10",
     "rounded-[35%] hover:rounded-[20%]",
     "select-none",
-    "text-xl md:text-2xl",
+    "max-xxs:text-sm text-xl md:text-2xl",
     "transition-all duration-300 ease-out-back"
   ),
   suitIndicator: {
     base: tw(
       "absolute",
       "-translate-y-1/2",
-      "right-1 top-3",
-      "max-sm:text-sm"
+      "right-1 top-3"
     ),
     red: tw(
       "text-rose-500",
@@ -51,7 +50,9 @@ const styles = {
     "font-bold",
     "-translate-x-1/2",
     "self-baseline",
-    "left-4 bottom-1"
+    "left-4 bottom-1",
+    "max-xxs:left-2.5 max-xxs:bottom-0.5",
+
   ),
   chipIndicator: {
     base: tw(

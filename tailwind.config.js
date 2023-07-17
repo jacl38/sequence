@@ -10,6 +10,12 @@ export default {
 			transitionDuration: {
 				DEFAULT: '300ms'
 			},
+
+			screens: {
+				'xxs': '420px',
+				'xs': '475px'
+			},
+
 			keyframes: {
 				fadeIn: {
 					'0%': { transform: 'translateY(10px)', opacity: '0' },
