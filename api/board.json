@@ -201,7 +201,7 @@
       "value": "ace"
     },
     {
-      "suit": "clubs",
+      "suit": "spades",
       "value": "three"
     },
     {
@@ -299,7 +299,7 @@
       "value": "three"
     },
     {
-      "suit": "hearts",
+      "suit": "clubs",
       "value": "four"
     },
     {
