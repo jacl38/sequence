@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon server.ts"
+    "test": "nodemon server.ts",
+    "start": "ts-node server.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@swc/core": "^1.3.70",
     "express": "^4.18.2",
     "nodemon": "^3.0.1",
     "socket.io": "^4.7.1",

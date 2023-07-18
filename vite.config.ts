@@ -7,11 +7,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://sequence-xj9r.onrender.com",
+        target: "https://sequence-api-37tv5vdgia-ue.a.run.app",
         changeOrigin: true
       },
       "/socket.io": {
-        target: "https://sequence-xj9r.onrender.com",
+        target: "https://sequence-api-37tv5vdgia-ue.a.run.app",
         changeOrigin: true,
         ws: true
       }

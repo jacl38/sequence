@@ -5,6 +5,8 @@ import { BoardSpace, CardSuits, CardValues, Hand, Room } from "./types";
 import { cardCanBePlayed, findWinCondition, makeBoard, validateAction } from "./boardUtil";
 import { shuffle } from "./mathUtil";
 
+console.log(`Server started`);
+
 const app = express();
 const server = app.listen(3000);
 

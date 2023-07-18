@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -31,7 +33,7 @@ export default {
 				'fadeIn': 'fadeIn forwards 0.5s',
 				'fadeOut': 'fadeOut forwards 0.5s'
 			},
-			
+
 			transitionTimingFunction: {
 				"in-back": "cubic-bezier(0.600, -0.280, 0.735, 0.045)",
 				"out-back": "cubic-bezier(0.175,  0.885, 0.320, 1.625)",
@@ -69,6 +71,16 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+		plugin(({ matchUtilities, theme }) => {
+			matchUtilities({
+				"animation-delay": (value) => {
+					return { "animation-delay": value }
+				}
+			}, {
+				values: theme('transitionDelay')
+			});
+		})
+	],
 }
 

@@ -26,6 +26,17 @@ export default function App() {
   const [foundRoomIDs, setFoundRoomIDs] = useState<string[]>([]);
   const [room, setRoom] = useRoom();
 
+  const [hasSocket, setHasSocket] = useState(false);
+
+  useEffect(() => {
+    if(!socket.connected) socket.connect();
+    function checkForSocket() {
+      if(socket.connected) setHasSocket(true);
+      else setTimeout(checkForSocket, 100);
+    }
+    checkForSocket();
+  }, []);
+
   useEffect(() => {
     socket.on("room-updated", (newRoom: Room) => {
       console.log(newRoom.myHand);
@@ -47,7 +58,8 @@ export default function App() {
   return ( <>
     <Header />
 
-    <div className="flex-auto flex flex-col overflow-x-auto w-full">
+    {hasSocket
+      ? <div className="flex-auto flex flex-col overflow-x-auto w-full">
       {!room.id && <>
         <p className={styles.label}>Create a game and share the code with a friend.</p>
         {foundRoomIDs.length > 0 && <p className={styles.label}>Or, pick a game from the list.</p>}
@@ -80,6 +92,18 @@ export default function App() {
         <PlayArea />
       </>}
     </div>
+    : <>
+      <div className="flex-auto flex flex-col items-center justify-center">
+        <div className="flex space-x-4 opacity-0 animation-delay-500 animate-fadeIn">
+          <Styled.Spinner />
+          <div>
+            <div className="animate-pulse text-3xl">Waiting for server...</div>
+            <div className="text-md opacity-0 animate-fadeIn animation-delay-[6000ms]">If this is taking too long, try refreshing the page.</div>
+          </div>
+        </div>
+      </div>
+    </>
+    }
 
     <Footer />
   </> );
