@@ -7,11 +7,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target: "https://sequence-xj9r.onrender.com",
         changeOrigin: true
       },
       "/socket.io": {
-        target: "http://localhost:3000",
+        target: "https://sequence-xj9r.onrender.com",
         changeOrigin: true,
         ws: true
       }

@@ -2,7 +2,6 @@ import { tw } from "../../util/styled";
 
 const styles = {
   container: tw(
-    // "bg-red-500"
     "relative",
     "md:w-16 max-md:h-16"
   ),
