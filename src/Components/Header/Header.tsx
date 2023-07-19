@@ -15,15 +15,16 @@ const styles = {
     "text-white",
     "overflow-hidden",
     "flex-shrink-0",
-    "flex flex-row justify-between items-center",
+    "flex justify-between items-center max-md:flex-col",
     "z-20"
   ),
   left: {
     container: tw(
-      "p-4 space-x-8",
+      "md:px-4 max-md:pt-4 max-md:pb-4 max-md:w-4/5",
+      "md:space-x-6 max-md:space-y-3",
       "mx-4",
       "flex-auto",
-      "flex flex-row items-center"
+      "flex max-md:flex-col items-center max-md:items-stretch"
     )
   }
 }
@@ -44,8 +45,10 @@ export default function Header() {
             {room.users.length < 2 && <PublicPrivateSwitch />}
           </>
           : <>
-            <RoomIDEntry />
-            <CreateRoomButton />
+            <div className="md:absolute flex max-md:flex-col md:left-1/2 md:-translate-x-1/2 md:space-x-4 max-md:space-y-2">
+              <RoomIDEntry />
+              <CreateRoomButton />
+            </div>
           </>
         }
 
@@ -54,7 +57,7 @@ export default function Header() {
         </>}
 
       </div>
-      <div className="p-4">
+      <div className="md:p-4 pb-4">
         <DarkSwitcher />
       </div>
     </header>

@@ -4,13 +4,29 @@ import { UUID } from "./util";
 import { BoardSpace, CardSuits, CardValues, Hand, Room } from "./types";
 import { cardCanBePlayed, findWinCondition, makeBoard, validateAction } from "./boardUtil";
 import { shuffle } from "./mathUtil";
+import cors from "cors";
 
 console.log(`Server started`);
 
 const app = express();
+app.use(cors({ origin: "*" }));
 const server = app.listen(3000);
 
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, {
+  cors: {
+    origin: "*"
+  },
+  pingTimeout: 90000,
+  connectionStateRecovery: {
+    maxDisconnectionDuration: 2 * 60 * 1000
+  },
+  cookie: {
+    name: "session",
+    path: "/",
+    httpOnly: true,
+    sameSite: "lax"
+  }
+});
 
 const rooms: ({
   hands?: { [key: string]: Hand },
@@ -31,7 +47,7 @@ setInterval(() => {
   });
 }, 10000);
 
-app.get("/api/rooms", (req, res) => {
+app.get("/rooms", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const data = {
     rooms: rooms.filter(room => room.public).map(room => room.id)

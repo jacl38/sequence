@@ -8,7 +8,8 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "https://sequence-api-37tv5vdgia-ue.a.run.app",
-        changeOrigin: true
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, "")
       },
       "/socket.io": {
         target: "https://sequence-api-37tv5vdgia-ue.a.run.app",

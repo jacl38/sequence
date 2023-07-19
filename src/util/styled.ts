@@ -34,6 +34,7 @@ export default {
     "border-4",
     "dark:border-opacity-20",
     "rounded-xl",
+    "whitespace-nowrap",
     "[&:not(:disabled)]:hover:bg-opacity-20",
     "[&:not(:disabled)]:dark:hover:bg-opacity-20",
     "[&:not(:disabled)]:hover:scale-105",

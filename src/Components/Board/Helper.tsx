@@ -21,7 +21,8 @@ const styles = {
   helpBlock: tw(
     "group-hover:animate-fadeIn",
     "group-hover:block hidden",
-    "text-xs font-semibold leading-3"
+    "text-xs font-semibold leading-3",
+    "max-sm:w-[70vw] max-sm:whitespace-normal",
   )
 }
 
@@ -34,7 +35,7 @@ export default function Helper() {
           <p className="text-lg">Help</p>
           <p>- Take turns placing chips on the board.</p>
           <p>- Red Jacks (❤️/♦️) are wild cards and can be placed anywhere.</p>
-          <p>- Black Jacks (♠️/♣️) can remove your opponents chips.</p>
+          <p>- Black Jacks (♠️/♣️) can remove your opponent's chips.</p>
           <p>- The corners (⭐) are free spaces and count towards either player's sequences.</p>
           <p className="font-bold">- The first player to get 5 chips in a row wins!</p>
         </div>

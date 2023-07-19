@@ -17,8 +17,9 @@ const styles = {
     "overflow-y-auto"
   ),
   label: tw(
-    "w-full py-3",
-    "text-center text-2xl font-bold"
+    "w-full max-w-[80%] mx-auto",
+    "text-center text-2xl font-bold",
+    "animate-fadeIn"
   )
 }
 
@@ -39,11 +40,13 @@ export default function App() {
 
   useEffect(() => {
     socket.on("room-updated", (newRoom: Room) => {
-      console.log(newRoom.myHand);
       setRoom(newRoom);
     });
     (async () => {
-      const res = await fetch("/api/rooms");
+      const res = await fetch("https://sequence-api-37tv5vdgia-ue.a.run.app/rooms", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      });
       const data = await res.json();
       setFoundRoomIDs(data.rooms);
     })();
@@ -58,52 +61,59 @@ export default function App() {
   return ( <>
     <Header />
 
-    {hasSocket
-      ? <div className="flex-auto flex flex-col overflow-x-auto w-full">
-      {!room.id && <>
-        <p className={styles.label}>Create a game and share the code with a friend.</p>
-        {foundRoomIDs.length > 0 && <p className={styles.label}>Or, pick a game from the list.</p>}
-        <div className={styles.foundRoomContainer}>
-          {foundRoomIDs.map(id => <PublicRoom key={id} roomID={id} />)}
-        </div>
-      </>}
+    <div className="flex-auto flex-shrink-0 w-full py-8">
+      {
+        hasSocket
+        ? <div className="flex flex-col mx-auto w-full">
+          {/* Has not joined game (create prompt and public games) */}
+          {!room.id && <>
+            <p className={styles.label}>Create a room and share the ID with a friend.</p>
+            {foundRoomIDs.length > 0 && <p className={styles.label}>Or, pick a room from the list.</p>}
+            <div className={styles.foundRoomContainer}>
+              {foundRoomIDs.map(id => <PublicRoom key={id} roomID={id} />)}
+            </div>
+          </>}
 
-      {room.users.length < 2 && room.id && <>
-        <div className="flex flex-auto items-center justify-center text-3xl animate-fadeIn">
-          <Styled.Spinner />
-          <span className="mx-4 animate-pulse">Waiting for a partner...</span>
+          {/* Waiting for player */}
+          {room.users.length < 2 && room.id && <>
+            <div className="flex items-center justify-center animate-fadeIn">
+              <Styled.Spinner />
+              <span className="mx-4 animate-pulse text-3xl">Waiting for a partner...</span>
+            </div>
+          </>}
+          
+          {/* Lobby full, waiting to start */}
+          {room.gameState === "lobby" && room.users.length === 2 && <>
+            <div className="animate-fadeIn">
+              <p className={styles.label}>You're ready to start!</p>
+              <p className={styles.label}>Press the Begin Game button above.</p>
+            </div>
+          </>}
+          
+          {/* Game in progress (or finished) */}
+          {room.gameState !== "lobby" && <>
+            {room.gameState.split("-")[0] === "end" && showWinLoseIndicator && <>
+              <WinLoseIndicator
+                winState={winState}
+                onRestart={() => socket.emit("begin-game")}
+                onClose={() => setShowWinLoseIndicator(false)} />
+            </>}
+            <PlayArea />
+          </>}
         </div>
-      </>}
-
-      {room.gameState === "lobby" && room.users.length === 2 && <>
-        <div className="flex flex-col items-center justify-center text-3xl animate-fadeIn">
-          <p className={styles.label}>You're ready to start!</p>
-          <p className={styles.label}>Press the Begin Game button above</p>
-        </div>
-      </>}
-
-      {room.gameState !== "lobby" && <>
-        {room.gameState.split("-")[0] === "end" && showWinLoseIndicator && <>
-          <WinLoseIndicator
-            winState={winState}
-            onRestart={() => socket.emit("begin-game")}
-            onClose={() => setShowWinLoseIndicator(false)} />
-        </>}
-        <PlayArea />
-      </>}
-    </div>
-    : <>
-      <div className="flex-auto flex flex-col items-center justify-center">
-        <div className="flex space-x-4 opacity-0 animation-delay-500 animate-fadeIn">
-          <Styled.Spinner />
-          <div>
-            <div className="animate-pulse text-3xl">Waiting for server...</div>
-            <div className="text-md opacity-0 animate-fadeIn animation-delay-[6000ms]">If this is taking too long, try refreshing the page.</div>
+        // Waiting to connect to server
+        : <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex space-x-4 opacity-0 animation-delay-500 animate-fadeIn">
+            <Styled.Spinner />
+            <div>
+              <p className="animate-pulse text-3xl">Waiting for server...</p>
+              <p className="text-md text-stone-500 opacity-0 animate-fadeIn animation-delay-[6000ms]">If this is taking too long, try refreshing the page.</p>
+              <p className="text-md text-stone-500 opacity-0 animate-fadeIn animation-delay-[10000ms]">Or something's broken... contact me?</p>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-    }
+      }
+    </div>
 
     <Footer />
   </> );

@@ -5,7 +5,8 @@ const styles = {
     "bg-stone-300 dark:bg-stone-900",
     "transition-colors",
     "text-stone-600 dark:text-stone-200",
-    "flex space-x-8 items-center",
+    "flex md:space-x-8 items-center max-md:flex-col",
+    "text-center",
     "py-4 px-8"
   ),
   link: tw(

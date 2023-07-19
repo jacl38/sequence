@@ -17,17 +17,17 @@ const styles = {
     "sm:w-12 sm:h-12",
     "aspect-square",
     "relative",
-    "bg-gradient-to-bl from-white to-stone-200 dark:from-stone-800 dark:to-stone-900",
+    "bg-gradient-to-bl",
+    hoveredFromHand ? "from-stone-300 to-stone-400" : "from-white to-stone-200",
+    hoveredFromHand ? "dark:from-stone-600 dark:to-stone-800" : "dark:from-stone-800 dark:to-stone-900",
     "hover:from-stone-300 hover:to-stone-400",
     "dark:hover:from-stone-700 dark:hover:to-stone-800",
     "shadow-inner shadow-stone-500/25 dark:shadow-stone-950/25",
     "hover:shadow-lg hover:scale-125",
     "hover:z-10",
     hoveredFromHand ? tw(
-      "z-10",
-      "scale-110 rotate-6",
-      "from-stone-200 to-stone-300",
-      "dark:from-stone-600 dark:to-stone-800"
+      "z-10 scale-110",
+      Math.random() > 0.5 ? "-rotate-6" : "rotate-6"
     ) : "",
     "rounded-[35%] hover:rounded-[20%]",
     "select-none",

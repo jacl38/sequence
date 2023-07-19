@@ -9,7 +9,7 @@ const styles = {
   ),
   decor: {
     container: tw(
-      "group-hover:rotate-180",
+      "md:group-hover:rotate-180",
       "transition-transform duration-500 ease-out",
       "origin-center",
       "absolute",
@@ -18,7 +18,7 @@ const styles = {
     ),
     item: tw(
       "relative",
-      "group-hover:-rotate-180",
+      "sm:group-hover:-rotate-180",
       "flex items-center justify-center",
       "transition-transform duration-500 ease-out-back"
     ),
@@ -40,7 +40,7 @@ const styles = {
 
 export default function LogoTitle() {
   return ( 
-    <a href="/">
+    <a className="text-center mr-0" href="/">
       <h1 className={styles.text}>
         <div className={styles.decor.container}>
           <span className={styles.decor.item}>

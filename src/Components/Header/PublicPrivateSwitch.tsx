@@ -22,7 +22,7 @@ export default function PublicPrivateSwitch() {
   }
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center justify-center md:px-6 max-md:pt-2 max-md:pb-6">
       <input
         hidden
         type="checkbox"

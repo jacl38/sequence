@@ -19,7 +19,7 @@ export default function PublicRoom({ roomID }: PublicRoomProps) {
 
   return (
     <Styled.Button
-      className="font-bold h-fit"
+      className="font-bold h-fit !bg-stone-400/75 dark:!bg-stone-700/25"
       onClick={joinRoom}>
       {roomID}
     </Styled.Button>

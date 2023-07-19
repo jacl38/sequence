@@ -54,12 +54,12 @@ export default function WinLoseIndicator({ winState, onRestart, onClose }: WinLo
         <div className="flex justify-evenly w-72 space-x-4">
           <Styled.Button
             onClick={onClose}
-            className="w-1/2 bg-stone-300/60">
+            className="w-1/2 !bg-stone-400/75 dark:!bg-black/25 font-bold">
             Close
           </Styled.Button>
           <Styled.Button
             onClick={onRestart}
-            className="w-1/2 bg-blue-700/90 dark:bg-blue-700/50 text-white font-bold">
+            className="w-1/2 !bg-blue-700/90 dark:!bg-blue-700/50 text-white font-bold">
             Rematch
           </Styled.Button>
         </div>
